@@ -4,6 +4,7 @@ MAINTAINER carlos.1424@live.com.mx
 
 ENV KAFKA_HOME /usr/local/kafka
 ADD ./start-kafka.sh /scripts/
+ADD ./create-kafka-topics.sh /scripts/
 
 RUN chmod +x /scripts/start-kafka.sh
 
@@ -18,3 +19,4 @@ RUN wget http://apache.cs.utah.edu/kafka/0.11.0.2/kafka_2.12-0.11.0.2.tgz && \
   mv kafka_2.12-0.11.0.2 $KAFKA_HOME
 
 CMD ["sh", "/scripts/start-kafka.sh"]
+CMD ["sh", "/scripts/create-kafka-topics.sh"]
