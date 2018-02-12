@@ -1,0 +1,10 @@
+run-main twitter.client.StatusStreamer
+run-main bcomposes.twitter.SearchStreamer scala
+run-main twitter.client.SearchStreamer scala
+run-main twitter.client.SearchStreamer Trump
+run-main twitter.client.SearchStreamer AMLO
+run-main twitter.client.SearchStreamer UPAEP
+twitter.client.SearchStreamer Trump
+run-main twitter.client.SearchStreamer Trump
+run-main twitter.client.SearchStreamer
+run-main twitter.client.SearchStreamer Trump

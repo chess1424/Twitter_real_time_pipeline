@@ -1,0 +1,17 @@
+[0m[[0minfo[0m] [0mRunning twitter.client.SearchStreamer Trump[0m
+[0m[[0mdebug[0m] [0mWaiting for threads to exit or System.exit to be called.[0m
+[0m[[0mdebug[0m] [0m  Classpath:[0m
+[0m[[0mdebug[0m] [0m	/Users/carlosmartinez/Documents/Twitter_real_time_pipeline/Twitter_client/target/scala-2.12/classes[0m
+[0m[[0mdebug[0m] [0m	/Users/carlosmartinez/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.12.4.jar[0m
+[0m[[0mdebug[0m] [0m	/Users/carlosmartinez/.ivy2/cache/org.twitter4j/twitter4j-core/jars/twitter4j-core-4.0.1.jar[0m
+[0m[[0mdebug[0m] [0m	/Users/carlosmartinez/.ivy2/cache/org.twitter4j/twitter4j-stream/jars/twitter4j-stream-4.0.1.jar[0m
+[0m[[0mdebug[0m] [0m	/Users/carlosmartinez/.sbt/preloaded/com.typesafe/config/1.2.0/bundles/config.jar[0m
+[0m[[0mdebug[0m] [0mWaiting for thread run-main-0 to terminate.[0m
+[0m[[0mdebug[0m] [0m	Thread run-main-0 exited.[0m
+[0m[[0mdebug[0m] [0mInterrupting remaining threads (should be all daemons).[0m
+[0m[[0mdebug[0m] [0mInterrupting thread Twitter4J Async Dispatcher[0][0m
+[0m[[0mdebug[0m] [0m	Interrupted Twitter4J Async Dispatcher[0][0m
+[0m[[0mdebug[0m] [0mInterrupting thread Thread-2[0m
+[0m[[0mdebug[0m] [0m	Interrupted Thread-2[0m
+[0m[[0mdebug[0m] [0mSandboxed run complete..[0m
+[0m[[0mdebug[0m] [0mExited with code 0[0m
