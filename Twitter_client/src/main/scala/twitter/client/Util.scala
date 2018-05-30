@@ -1,35 +1,40 @@
 package twitter.client
 
-import twitter4j._
+import java.util.Properties
 import com.typesafe.config.ConfigFactory
+import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
 
 /**
   * Created by carlosmartinez on 2/11/18.
   */
 
 
-object TwitterConfig{
-  val twitterConfig = ConfigFactory.load()
+object KafkaUtil{
+  def createProducer = {
+    val props = new Properties()
+    props.put("bootstrap.servers", "localhost:9092") //kafka brokers
+    props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer")
+    props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer")
+    new KafkaProducer[String, String](props)
+  }
 
-  def consumerKey = twitterConfig.getString("twitter.consumer.key")
-  def consumerSecret = twitterConfig.getString("twitter.consumer.secret")
-  def tokenAccess = twitterConfig.getString("twitter.token.access")
-  def tokenSecret = twitterConfig.getString("twitter.token.secret")
+  def createRecord(topic: String, key: String, value: String) = new ProducerRecord(topic, key, value)
 }
 
-object Util {
-  val config = new twitter4j.conf.ConfigurationBuilder().
-    setOAuthConsumerKey(TwitterConfig.consumerKey).
-    setOAuthConsumerSecret(TwitterConfig.consumerSecret).
-    setOAuthAccessToken(TwitterConfig.tokenAccess).
-    setOAuthAccessTokenSecret(TwitterConfig.tokenSecret).build()
 
-  def simpleStatusListener = new StatusListener() {
-    def onStatus(status: Status) { println(status.getText) }
-    def onDeletionNotice(statusDeletionNotice: StatusDeletionNotice) {}
-    def onTrackLimitationNotice(numberOfLimitedStatuses: Int) {}
-    def onException(ex: Exception) { ex.printStackTrace }
-    def onScrubGeo(arg0: Long, arg1: Long) {}
-    def onStallWarning(warning: StallWarning) {}
-  }
+object TwitterUtil{
+  val twitterConfig = ConfigFactory.load()
+  val consumerKey = twitterConfig.getString("twitter.consumer.key")
+  val consumerSecret = twitterConfig.getString("twitter.consumer.secret")
+  val tokenAccess = twitterConfig.getString("twitter.token.access")
+  val tokenSecret = twitterConfig.getString("twitter.token.secret")
+
+  val config = new twitter4j.conf.ConfigurationBuilder().
+    setOAuthConsumerKey(consumerKey).
+    setOAuthConsumerSecret(consumerSecret).
+    setOAuthAccessToken(tokenAccess).
+    setOAuthAccessTokenSecret(tokenSecret).build()
+
+  def createListener(topic: String, key: String) =
+    new  TwitterListener(KafkaUtil.createProducer, topic, key)
 }
