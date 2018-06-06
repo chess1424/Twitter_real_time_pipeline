@@ -10,4 +10,4 @@ libraryDependencies ++= Seq(
   "com.typesafe" % "config" % "1.2.0",
   "org.apache.kafka" % "kafka-clients" % "1.0.0"
 )
-    
+

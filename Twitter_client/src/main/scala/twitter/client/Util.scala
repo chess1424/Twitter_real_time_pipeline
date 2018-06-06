@@ -15,6 +15,8 @@ object KafkaUtil{
     props.put("bootstrap.servers", "localhost:9092") //kafka brokers
     props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer")
     props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer")
+    props.put("zk.connect", "localhost:2181")
+
     new KafkaProducer[String, String](props)
   }
 
