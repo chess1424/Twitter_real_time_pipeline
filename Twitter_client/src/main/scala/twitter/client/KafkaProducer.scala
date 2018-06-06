@@ -9,11 +9,15 @@ import twitter4j._
 //Object to filter tweets in real time by specific word/words
 object SearchStreamer {
   def main(args: Array[String]) {
+    val twitterListener = TwitterUtil.createListener("twitter-streamer", "TRUMP")
+    val twitterStream = new TwitterStreamFactory(TwitterUtil.config).getInstance
 
-    val twitterStream = new TwitterStreamFactory(Util.config).getInstance
-    twitterStream.addListener(Util.simpleStatusListener)
-    twitterStream.filter(new FilterQuery().track(args))
-    Thread.sleep(10000)
+    twitterStream.addListener(twitterListener.simpleStatusListener)
+    twitterStream.filter(new FilterQuery().track(Array("TRUMP")))
+
+    while(true){//hack to maintain connection
+    }
+
     twitterStream.cleanUp
     twitterStream.shutdown
   }
