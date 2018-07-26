@@ -8,6 +8,7 @@ class TwitterListener(producer: KafkaProducer[String, String], topic: String, ke
   def simpleStatusListener = new StatusListener() {
     def onStatus(status: Status) {
       System.out.println("Recording: " + status.getText)
+
       val record = KafkaUtil.createRecord(topic, key, status.getText)
       producer.send(record)
     }
