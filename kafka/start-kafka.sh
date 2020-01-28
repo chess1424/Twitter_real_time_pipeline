@@ -5,4 +5,7 @@ $KAFKA_HOME/bin/zookeeper-server-start.sh $KAFKA_HOME/config/zookeeper.propertie
 $KAFKA_HOME/bin/kafka-server-start.sh $KAFKA_HOME/config/server.properties &
 
 #create kafka topics
-/scripts/create-kafka-topics.sh
+/scripts/create-kafka-topics.sh &
+
+#keep container running
+tail -f /dev/null
