@@ -1,7 +1,0 @@
-*/project/project/*
-*/project/target/*
-*/target/*
-.idea
-*.jar
-*.log
-target/*
