@@ -3,6 +3,7 @@ package twitter.client
 import java.util.Properties
 import com.typesafe.config.ConfigFactory
 import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
+import twitter.encoder.{Tweet, TweetSerializer}
 
 /**
   * Created by carlosmartinez on 2/11/18.
@@ -13,13 +14,11 @@ object KafkaUtil{
     val props = new Properties()
     props.put("bootstrap.servers", "localhost:9092") //kafka brokers
     props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer")
-    props.put("value.serializer", "twitter.client.TweetSerializer")
+    props.put("value.serializer", "twitter.encoder.TweetSerializer")
     props.put("zk.connect", "localhost:2181")
 
     new KafkaProducer[String, Tweet](props)
   }
-
-  //def createRecord(topic: String, key: String, value: String) = new ProducerRecord(topic, key, value)
 }
 
 object TwitterUtil{

@@ -2,6 +2,7 @@ package twitter.client
 
 import twitter4j._
 
+
 /**
   * Created by carlosmartinez on 2/11/18.
   */
@@ -14,6 +15,7 @@ object SearchStreamer {
 
     twitterStream.addListener(twitterListener.simpleStatusListener)
     twitterStream.filter(new FilterQuery().track(Array("TRUMP trump Trump")))
+
 
     while(true){//hack to maintain connection
     }

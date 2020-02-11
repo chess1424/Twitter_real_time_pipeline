@@ -1,5 +1,6 @@
 */project/project/*
 */project/target/*
+*/src/main/resources/application.conf
 */target/*
 .idea
 *.jar

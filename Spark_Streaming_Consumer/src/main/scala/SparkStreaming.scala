@@ -10,8 +10,6 @@ object SparkStreaming {
 
     val streamingContext = new StreamingContext(spark, Seconds(1))
 
-    KafkaUtils.creatS
-
     val lines = KafkaUtils.createStream(streamingContext
       , "localhost:2181"
       , "test-group"
@@ -22,5 +20,4 @@ object SparkStreaming {
     streamingContext.start
     streamingContext.awaitTermination
   }
-
 }

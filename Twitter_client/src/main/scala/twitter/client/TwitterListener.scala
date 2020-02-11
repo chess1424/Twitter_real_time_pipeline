@@ -2,28 +2,18 @@ package twitter.client
 
 import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
 import twitter4j.{StallWarning, Status, StatusDeletionNotice, StatusListener}
+import twitter.encoder.Tweet
 
 class TwitterListener(producer: KafkaProducer[String, Tweet], topic: String, key: String) {
 
   def simpleStatusListener = new StatusListener() {
     def onStatus(status: Status) {
-//      if(status.getPlace != null && status.getPlace.getCountryCode != null)
-//        System.out.println(status.getPlace.getCountryCode)
+      var countryCode:String = null
+      if(status.getPlace != null && status.getPlace.getCountryCode != null)
+        countryCode = status.getPlace.getCountryCode
 
-//      System.out.println(status.getSource)
-//      System.out.println(status.getUser.getId)
-//      System.out.println(status.isRetweet)
-//      System.out.println(status.getText)
-
-      var tweet  = new Tweet("MX", status.getSource, status.getUser.getId,
+      var tweet  = new Tweet(countryCode, status.getSource, status.getUser.getId,
         status.isRetweet, status.getText)
-
-      System.out.println(tweet.toString);
-
-
-      System.out.println("==================================")
-      //System.out.println("Recording: " + status.getText)
-      //val record = KafkaUtil.createRecord(topic, key, status.getText)
 
       val record = new ProducerRecord[String, Tweet](topic,key,tweet)
       producer.send(record)
