@@ -12,8 +12,8 @@ resolvers ++= Seq(
 val sparkVersion = "1.5.2"
 
 libraryDependencies ++= Seq(
-   "org.apache.kafka" % "kafka-clients" % "1.0.0",
-   "org.apache.spark" %% "spark-core" % sparkVersion
+   "org.apache.kafka" %% "kafka" % "0.10.1.0",
+  "org.codehaus.jackson" % "jackson-mapper-asl" % "1.9.2"
 )
 
 assemblyMergeStrategy in assembly := {

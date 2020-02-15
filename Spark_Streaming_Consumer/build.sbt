@@ -8,5 +8,6 @@ libraryDependencies ++= Seq(
   "org.apache.spark" %% "spark-core" % "1.6.2",
   "org.apache.spark" %% "spark-streaming" % "1.6.2",
   "org.apache.spark" %% "spark-streaming-kafka" % "1.6.2",
-  "org.apache.spark" %% "spark-sql" % "1.6.2"
+  "org.apache.spark" %% "spark-sql" % "1.6.2",
+  "org.apache.kafka" %% "kafka" % "0.10.1.0"
 )

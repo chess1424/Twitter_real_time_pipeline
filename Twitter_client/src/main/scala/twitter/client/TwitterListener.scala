@@ -2,7 +2,7 @@ package twitter.client
 
 import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
 import twitter4j.{StallWarning, Status, StatusDeletionNotice, StatusListener}
-import twitter.encoder.Tweet
+import twitter.Tweet
 
 class TwitterListener(producer: KafkaProducer[String, Tweet], topic: String, key: String) {
 
@@ -12,10 +12,11 @@ class TwitterListener(producer: KafkaProducer[String, Tweet], topic: String, key
       if(status.getPlace != null && status.getPlace.getCountryCode != null)
         countryCode = status.getPlace.getCountryCode
 
-      var tweet  = new Tweet(countryCode, status.getSource, status.getUser.getId,
+      val tweet  = new Tweet(countryCode, status.getSource, status.getUser.getId,
         status.isRetweet, status.getText)
 
       val record = new ProducerRecord[String, Tweet](topic,key,tweet)
+      println("Sending the record " + record)
       producer.send(record)
     }
     def onDeletionNotice(statusDeletionNotice: StatusDeletionNotice) {}
