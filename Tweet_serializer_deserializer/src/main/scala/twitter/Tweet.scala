@@ -1,6 +1,8 @@
-package twitter.encoder
+package twitter
 
-class Tweet {
+import java.io.Serializable
+
+class Tweet extends Serializable {
   private var countryCode: String = null
   private var source: String = null
   private var userId: java.lang.Long = null
@@ -8,10 +10,11 @@ class Tweet {
   private var text: String = null
 
   def this(countryCode: String, source: String, userId: Long, isRetweet: Boolean, text: String){
-    this();
+    this()
     this.countryCode = countryCode
-    this.isRetweet = isRetweet
+    this.source = source
     this.userId = userId
+    this.isRetweet = isRetweet
     this.text = text
   }
 
@@ -20,4 +23,6 @@ class Tweet {
   def getUserId: Long = this.userId
   def getIsRetweet: Boolean = this.isRetweet
   def getText: String = this.text
+
+  override def toString: String = super.toString
 }

@@ -1,8 +1,10 @@
-package twitter.encoder
+package twitter.serializer
 
 import java.util
+
 import org.apache.kafka.common.serialization.Serializer
 import org.codehaus.jackson.map.ObjectMapper
+import twitter.Tweet
 
 class TweetSerializer extends Serializer[Tweet]{
   override def configure(map: util.Map[String, _], b: Boolean): Unit = {
