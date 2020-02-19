@@ -1,11 +1,15 @@
-import kafka.serializer.{StringDecoder}
+import druid.{Message, MessageBeamFactory}
+import kafka.serializer.StringDecoder
 import org.apache.spark.storage.StorageLevel
-import org.apache.spark.streaming.dstream.DStream
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 import org.apache.spark.streaming.kafka.KafkaUtils
 import org.apache.spark.{SparkConf, SparkContext}
+import org.joda.time.DateTime
 import twitter.Tweet
-import twitter.encoder.{TweetEncoder}
+import twitter.encoder.TweetEncoder
+import com.metamx.tranquility.spark.BeamRDD._
+
+
 
 object SparkStreaming {
   def main(args: Array[String]): Unit = {
@@ -21,21 +25,19 @@ object SparkStreaming {
       //"auto.offset.reset" -> "smallest"
     )
 
-    val data: DStream[Tweet] =
+
+    val t =
     //al lines =
       KafkaUtils.createStream[String, Tweet, StringDecoder, TweetEncoder](
       streamingContext,
       kafkaParams,
       Map("twitter-streamer" -> 4),
       StorageLevel.MEMORY_AND_DISK_SER_2
-    ).map(_._2)
+    ).map(tweet => tweet._2).map(tweet => Message(new DateTime(), tweet.getCountryCode, tweet.getSource, tweet.getUserId,
+        tweet.getIsRetweet, tweet.getText))
 
 
-    data.foreachRDD(rdd => rdd.foreach(tweet => {
-      System.out.println("============================")
-      System.out.println(tweet.getCountryCode)
-      System.out.println(tweet.getText)
-    }))
+    t.foreachRDD(rdd => rdd.propagate(new MessageBeamFactory))
 
     streamingContext.start
     streamingContext.awaitTermination
