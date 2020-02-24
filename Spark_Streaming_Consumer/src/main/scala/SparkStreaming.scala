@@ -33,8 +33,12 @@ object SparkStreaming {
       kafkaParams,
       Map("twitter-streamer" -> 4),
       StorageLevel.MEMORY_AND_DISK_SER_2
-    ).map(tweet => tweet._2).map(tweet => Message(new DateTime(), tweet.getCountryCode, tweet.getSource, tweet.getUserId,
-        tweet.getIsRetweet, tweet.getText))
+    ).map(tweet => tweet._2).map(tweet =>
+        {
+          System.out.println("Received " + tweet);
+          Message(new DateTime(), tweet.getCountryCode, tweet.getSource, tweet.getUserId,
+            tweet.getIsRetweet, tweet.getText)
+        })
 
 
     t.foreachRDD(rdd => rdd.propagate(new MessageBeamFactory))
