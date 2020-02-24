@@ -21,6 +21,6 @@ ADD config/common.runtime.properties /usr/local/druid/single-server/micro-quicks
 
 ENV DRUID_SKIP_JAVA_CHECK=1
 
-ENTRYPOINT ./$DRUID_HOME/bin/start-nano-quickstart
+ENTRYPOINT ./$DRUID_HOME/bin/micro-quickstart
 
 
