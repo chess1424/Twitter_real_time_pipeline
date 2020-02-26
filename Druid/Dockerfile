@@ -19,8 +19,10 @@ RUN wget https://downloads.apache.org/druid/0.17.0/apache-druid-0.17.0-bin.tar.g
 
 ADD config/common.runtime.properties /usr/local/druid/single-server/micro-quickstart/_common/common.runtime.properties
 
+ADD config/middleManager/runtime.properties /usr/local/druid/conf/druid/single-server/micro-quickstart/middleManager/runtime.properties
+
 ENV DRUID_SKIP_JAVA_CHECK=1
 
-ENTRYPOINT ./$DRUID_HOME/bin/micro-quickstart
+ENTRYPOINT .$DRUID_HOME/bin/start-micro-quickstart
 
 

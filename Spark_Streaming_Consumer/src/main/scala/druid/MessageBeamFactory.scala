@@ -42,12 +42,14 @@ object MessageBeamFactory
       .rollup(DruidRollup(SpecificDruidDimensions(dimensions), aggregators, QueryGranularities.MINUTE, true))
       .tuning(
         ClusteredBeamTuning(
-          segmentGranularity = Granularity.MINUTE,
+          segmentGranularity = Granularity.HOUR,
           windowPeriod = new Period("PT1M"),
-          partitions = 1,
+          partitions = 2,
           replicants = 1
         )
       )
+
+
       .timestampSpec(new TimestampSpec("timestamp", "posix", null))
       .buildBeam()
   }

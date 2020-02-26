@@ -6,7 +6,7 @@ import com.metamx.common.scala.untyped._
 import com.metamx.tranquility.typeclass.Timestamper
 
 case class Message(time: DateTime, countryCode: String,  source: String, userId: Long,
-                   isRetweet: Boolean, text: String) {
+                   isRetweet: Boolean) {
 
   @JsonValue
   def toMap: Map[String, Any] = Map(
@@ -14,8 +14,7 @@ case class Message(time: DateTime, countryCode: String,  source: String, userId:
     "countryCode" -> countryCode,
     "source" -> source,
     "userId" -> userId,
-    "isRetweet" -> isRetweet,
-    "text" -> text
+    "isRetweet" -> isRetweet
   )
 }
 
@@ -32,8 +31,7 @@ object Message {
       str(d("countryCode")),
       str(d("source")),
       int(d("userId")),
-      bool(d("isRetweet")),
-      str(d("text"))
+      bool(d("isRetweet"))
     )
   }
 }
