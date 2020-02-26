@@ -35,9 +35,11 @@ object SparkStreaming {
       StorageLevel.MEMORY_AND_DISK_SER_2
     ).map(tweet => tweet._2).map(tweet =>
         {
-          System.out.println("Received " + tweet);
-          Message(new DateTime(), tweet.getCountryCode, tweet.getSource, tweet.getUserId,
-            tweet.getIsRetweet, tweet.getText)
+
+          val time = new DateTime()
+          System.out.println("Received " + tweet + " with time " + time);
+          Message(time, tweet.getCountryCode, tweet.getSource, tweet.getUserId,
+            tweet.getIsRetweet)
         })
 
 
