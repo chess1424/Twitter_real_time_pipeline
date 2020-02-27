@@ -25,25 +25,31 @@ object SparkStreaming {
       //"auto.offset.reset" -> "smallest"
     )
 
-
-    val t =
-    //al lines =
+    val lines =
       KafkaUtils.createStream[String, Tweet, StringDecoder, TweetEncoder](
-      streamingContext,
-      kafkaParams,
-      Map("twitter-streamer" -> 4),
-      StorageLevel.MEMORY_AND_DISK_SER_2
-    ).map(tweet => tweet._2).map(tweet =>
-        {
+        streamingContext,
+        kafkaParams,
+        Map("twitter-streamer" -> 4),
+        StorageLevel.MEMORY_AND_DISK_SER_2
+      )map(tweet => tweet._2)
 
-          val time = new DateTime()
-          System.out.println("Received " + tweet + " with time " + time);
-          Message(time, tweet.getCountryCode, tweet.getSource, tweet.getUserId,
-            tweet.getIsRetweet)
-        })
+    lines.foreachRDD(rdd => rdd.foreach(t => println(t)))
 
-
-    t.foreachRDD(rdd => rdd.propagate(new MessageBeamFactory))
+//    val t =
+//    //al lines =
+//      KafkaUtils.createStream[String, Tweet, StringDecoder, TweetEncoder](
+//      streamingContext,
+//      kafkaParams,
+//      Map("twitter-streamer" -> 4),
+//      StorageLevel.MEMORY_AND_DISK_SER_2
+//    ).map(tweet => tweet._2).map(tweet =>
+//        {
+//          val time = new DateTime()
+//          System.out.println("Received " + tweet + " with time " + time);
+//          Message(time, tweet.userId, tweet.countryCode, tweet.source, tweet.attachedLinks.mkString(", "),
+//            tweet.hashTags.mkString(", "), tweet.words, tweet.isVerified, tweet.isRetweet, tweet.isPossibleSensitive,
+//            tweet.timesRetweeted, tweet.followers, tweet.friends)
+//        })
 
     streamingContext.start
     streamingContext.awaitTermination
