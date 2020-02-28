@@ -14,7 +14,7 @@ object SearchStreamer {
     val twitterStream = new TwitterStreamFactory(TwitterUtil.config).getInstance
 
     twitterStream.addListener(twitterListener.simpleStatusListener)
-    twitterStream.filter(new FilterQuery().track(Array("AMLO amlo Amlo")))
+    twitterStream.filter(new FilterQuery().track(Array("TRUMP")))
 
 
     while(true){//hack to maintain connection

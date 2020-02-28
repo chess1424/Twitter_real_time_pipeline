@@ -30,8 +30,14 @@ object MessageBeamFactory
     val indexService = DruidEnvironment("druid/overlord") // Your overlord's druid.service, with slashes replaced by colons.
     val discoveryPath = "/druid/discovery"     // Your overlord's druid.discovery.curator.path
     val dataSource = "events_druid"
-    val dimensions = IndexedSeq("countryCode", "source", "userId")
-    val aggregators = Seq(new LongSumAggregatorFactory("isRetweet", "isRetweet"))
+    val dimensions = IndexedSeq("userId", "countryCode", "source", "attachedLinks", "hashTags")
+    val aggregators = Seq(new LongSumAggregatorFactory("words", "words"),
+                          new LongSumAggregatorFactory("isVerified", "isVerified"),
+                          new LongSumAggregatorFactory("isRetweet", "isRetweet"),
+                          new LongSumAggregatorFactory("isPossibleSensitive", "isPossibleSensitive"),
+                          new LongSumAggregatorFactory("timesRetweeted", "timesRetweeted"),
+                          new LongSumAggregatorFactory("followers", "followers"),
+                          new LongSumAggregatorFactory("friends", "friends"))
 
     // Expects simpleEvent.timestamp to return a Joda DateTime object.
     DruidBeams
@@ -48,7 +54,6 @@ object MessageBeamFactory
           replicants = 1
         )
       )
-
 
       .timestampSpec(new TimestampSpec("timestamp", "posix", null))
       .buildBeam()

@@ -25,6 +25,15 @@ object SparkStreaming {
       //"auto.offset.reset" -> "smallest"
     )
 
+//    val lines =
+//      KafkaUtils.createStream[String, Tweet, StringDecoder, TweetEncoder](
+//        streamingContext,
+//        kafkaParams,
+//        Map("twitter-streamer" -> 4),
+//        StorageLevel.MEMORY_AND_DISK_SER_2
+//      )map(tweet => tweet._2)
+//
+//    lines.foreachRDD(rdd => rdd.foreach(t => println(t.toString())))
 
     val t =
     //al lines =
@@ -35,13 +44,12 @@ object SparkStreaming {
       StorageLevel.MEMORY_AND_DISK_SER_2
     ).map(tweet => tweet._2).map(tweet =>
         {
-
           val time = new DateTime()
           System.out.println("Received " + tweet + " with time " + time);
-          Message(time, tweet.getCountryCode, tweet.getSource, tweet.getUserId,
-            tweet.getIsRetweet)
+          Message(time, tweet.getUserId, tweet.getCountryCode, tweet.getSource, tweet.getAttachedLinks,
+            tweet.getHashTags, tweet.getWords, tweet.getIsVerified, tweet.getIsRetweet, tweet.getIsPossibleSensitive,
+            tweet.getTimesRetweeted, tweet.getFollowers, tweet.getFriends)
         })
-
 
     t.foreachRDD(rdd => rdd.propagate(new MessageBeamFactory))
 
