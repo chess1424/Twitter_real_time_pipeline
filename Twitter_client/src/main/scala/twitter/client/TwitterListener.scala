@@ -59,11 +59,11 @@ class TwitterListener(producer: KafkaProducer[String, Tweet], topic: String, key
 //      println("followers = " + followers)
 //      println("freinds = " + friens)
 
-      val tweet  = new Tweet(userId, countryCode, source, attachedLinks, hashtags, words, isVerified, isRetweet,
-        isPossibleSensitive, timesRetweeted, followers, friens)
+      val tweet  = new Tweet(userId, countryCode, source, attachedLinks.mkString(", "), hashtags.mkString(", "), words,
+        isVerified, isRetweet, isPossibleSensitive, timesRetweeted, followers, friens)
 
       val record = new ProducerRecord[String, Tweet](topic,key,tweet)
-      println("Sending the record " + record)
+      println("====Sending the record:=== \n " + record)
       producer.send(record)
     }
     def onDeletionNotice(statusDeletionNotice: StatusDeletionNotice) {}
