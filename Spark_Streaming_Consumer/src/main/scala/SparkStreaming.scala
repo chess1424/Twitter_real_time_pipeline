@@ -9,8 +9,6 @@ import twitter.Tweet
 import twitter.encoder.TweetEncoder
 import com.metamx.tranquility.spark.BeamRDD._
 
-
-
 object SparkStreaming {
   def main(args: Array[String]): Unit = {
     val sparkConf = new SparkConf().setAppName("SparkStreamingConsumer").setMaster("local[2]")
@@ -46,8 +44,8 @@ object SparkStreaming {
         {
           val time = new DateTime()
           System.out.println("Received " + tweet + " with time " + time);
-          Message(time, tweet.getUserId, tweet.getCountryCode, tweet.getSource, tweet.getAttachedLinks,
-            tweet.getHashTags, tweet.getWords, tweet.getIsVerified, tweet.getIsRetweet, tweet.getIsPossibleSensitive,
+          Message(time, tweet.getUserId, tweet.getTweetId, tweet.getCountryCode, tweet.getSource, tweet.getAttachedLinks,
+            tweet.getHashTags, tweet.getUserVerifiable, tweet.getRetweetStatus, tweet.getSensitivity,tweet.getWords,
             tweet.getTimesRetweeted, tweet.getFollowers, tweet.getFriends)
         })
 

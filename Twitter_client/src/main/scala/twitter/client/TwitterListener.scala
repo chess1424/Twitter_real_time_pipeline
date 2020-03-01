@@ -18,6 +18,7 @@ class TwitterListener(producer: KafkaProducer[String, Tweet], topic: String, key
 
       //Building Dimensions
       val userId = status.getUser.getId.toString
+      val tweetId = status.getId.toString
 
       val countryCode = {
         try {
@@ -33,37 +34,22 @@ class TwitterListener(producer: KafkaProducer[String, Tweet], topic: String, key
       var hashtags: List[String] = List()
       status.getURLEntities.foreach(url => {attachedLinks = url.getURL :: attachedLinks})
       status.getHashtagEntities.foreach(hashTag => {hashtags = hashTag.getText :: hashtags})
+      val userVerifiable = if(status.getUser.isVerified) "Verified" else "Not verified"
+      val retweeetStatus = if(status.isRetweet) "Retweeted" else "Not retweeted"
+      val sensitivity = if(status.isPossiblySensitive) "Sensitive" else "Not sensitive"
 
       //Building Metrics
       val words = status.getText.length
-      val isVerified = status.getUser.isVerified
-      val isRetweet = status.isRetweet
-      val isPossibleSensitive = status.isPossiblySensitive
       val timesRetweeted = status.getRetweetCount
       val followers = status.getUser.getFollowersCount
-      val friens = status.getUser.getFriendsCount
+      val friends = status.getUser.getFriendsCount
 
-//      println("======Dimensions=====")
-//      println("userId  = " + userId)
-//      println("countryCode = " + countryCode)
-//      println("source = " + source)
-//      println("attachedLinks = " + attachedLinks)
-//      println("hashtags = " + hashtags)
-//
-//      println("======Metrics=====")
-//      println("words = " + words)
-//      println("isVerified = " + isVerified)
-//      println("isRetweet = " + isRetweet)
-//      println("isPossibleSensitive = " + isPossibleSensitive)
-//      println("timesRetweeted = " + timesRetweeted)
-//      println("followers = " + followers)
-//      println("freinds = " + friens)
-
-      val tweet  = new Tweet(userId, countryCode, source, attachedLinks.mkString(", "), hashtags.mkString(", "), words,
-        isVerified, isRetweet, isPossibleSensitive, timesRetweeted, followers, friens)
+      val tweet  = new Tweet(userId, tweetId, countryCode, source, attachedLinks.mkString(", "), hashtags.mkString(", "),
+        userVerifiable, retweeetStatus, sensitivity, words, timesRetweeted, followers, friends)
 
       val record = new ProducerRecord[String, Tweet](topic,key,tweet)
       println("====Sending the record:=== \n " + record)
+
       producer.send(record)
     }
     def onDeletionNotice(statusDeletionNotice: StatusDeletionNotice) {}
